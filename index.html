@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeVerse | الرحلة إلى عالم البرمجة</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;600;900&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
+    
+    <!-- مكتبة الشعارات الحقيقية للغات البرمجة -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+    <link rel="stylesheet" href="seyle.css">
+
+    <!-- تنسيقات الصفحة موجودة في seyle.css -->
+    <template id="legacy-styles" hidden>
+        :root {
+            --bg-color: #050510;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --neon-cyan: #00f2ff;
+            --neon-purple: #bc13ff;
+            --neon-pink: #ff0055;
+            --text-color: #e2e8f0;
+            --text-muted: #94a3b8;
+            --code-font: 'Fira Code', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* === الخلفية المتوهجة === */
+        .bg-glow {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 0%, #1a1a40, #050510 60%);
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        .orb-1 { width: 400px; height: 400px; background: var(--neon-purple); top: -100px; right: -100px; }
+        .orb-2 { width: 300px; height: 300px; background: var(--neon-cyan); bottom: 10%; left: -50px; animation-delay: 2s; }
+        .orb-3 { width: 250px; height: 250px; background: var(--neon-pink); top: 40%; right: 20%; animation-delay: 4s; opacity: 0.2; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.05); }
+        }
+
+        /* === شريط التنقل === */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background: rgba(5, 5, 16, 0.6);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav ul { list-style: none; display: flex; gap: 40px; }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0; height: 2px;
+            bottom: -5px; right: 0;
+            background: var(--neon-cyan);
+            transition: width 0.3s;
+        }
+
+        nav a:hover { color: var(--neon-cyan); }
+        nav a:hover::after { width: 100%; }
+
+        /* === القسم الرئيسي === */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 85vh;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine { to { background-position: 200% center; } }
+
+        #typewriter {
+            font-family: var(--code-font);
+            color: var(--neon-cyan);
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            background: rgba(0, 242, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.1);
+        }
+
+        .hero p {
+            max-width: 650px;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: var(--text-muted);
+        }
+
+        .btn-main {
+            background: linear-gradient(45deg, var(--neon-purple), var(--neon-pink));
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(188, 19, 255, 0.4);
+        }
+
+        .btn-main:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(188, 19, 255, 0.6);
+        }
+
+        /* === عنوان الأقسام === */
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin: 100px 0 50px;
+            font-weight: 900;
+        }
+
+        /* === أقسام الشرح === */
+        .info-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 60px 80px;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .info-text { flex: 1; min-width: 300px; }
+        .info-text h2 { font-size: 2.5rem; margin-bottom: 20px; }
+
+        .info-text p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        /* === محرر الأكواد ثلاثي الأبعاد === */
+        .code-editor-3d-wrapper {
+            flex: 1;
+            min-width: 300px;
+            perspective: 1000px;
+        }
+
+        .code-editor-3d {
+            background: #1e1e3f;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(188, 19, 255, 0.2);
+            transition: transform 0.2s ease-out;
+            transform: rotateY(-15deg) rotateX(5deg);
+        }
+
+        .editor-header {
+            background: #2a2a4a;
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid #333;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot.red { background: #ff5f56; }
+        .dot.yellow { background: #ffbd2e; }
+        .dot.green { background: #27c93f; }
+
+        .code-content {
+            padding: 25px;
+            font-family: var(--code-font);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .c-keyword { color: var(--neon-purple); }
+        .c-func { color: var(--neon-cyan); }
+        .c-string { color: #ff79c6; }
+        .c-comment { color: #6272a4; }
+        .c-var { color: #f8f8f2; }
+
+        /* === بانر صورة فريق البرمجة (Parallax) === */
+        .banner-section {
+            position: relative;
+            height: 400px;
+            margin: 80px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(rgba(5,5,16,0.7), rgba(5,5,16,0.9)), url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .banner-text h2 { font-size: 3.5rem; margin-bottom: 15px; }
+        .banner-text p { font-size: 1.4rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+
+        /* === قسم "البرمجة للجميع" بتصميم اللوحات العريضة === */
+        .immersive-section {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto 80px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            min-height: 450px;
+        }
+
+        .immersive-section.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .immersive-img {
+            flex: 1.5;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* تأثير التلاشي لدمج الصورة مع اللوحة الداكنة */
+        .immersive-section:not(.reverse) .immersive-img::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(to right, transparent 70%, #0a0a18 100%);
+        }
+        .immersive-section.reverse .immersive-img::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(to left, transparent 70%, #0a0a18 100%);
+        }
+
+        .immersive-text {
+            flex: 1;
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #0a0a18;
+            position: relative;
+        }
+
+        .immersive-text::before {
+            content: '';
+            position: absolute;
+            top: 50px; bottom: 50px;
+            width: 4px;
+            background: linear-gradient(180deg, var(--neon-cyan), var(--neon-purple));
+            border-radius: 2px;
+        }
+        
+        .immersive-section:not(.reverse) .immersive-text::before { right: 0; }
+        .immersive-section.reverse .immersive-text::before { left: 0; }
+
+        .immersive-text h3 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .immersive-text p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        /* === بطاقات اللغات والشعارات === */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 0 60px 80px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            padding: 40px 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-15px);
+            border-color: rgba(0, 242, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        .card:hover::before { transform: scaleX(1); }
+
+        .lang-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            min-height: 80px;
+        }
+        .lang-logos i { font-size: 4.5rem; transition: transform 0.3s ease; }
+        .card:hover .lang-logos i { transform: scale(1.15) rotate(5deg); }
+
+        .card h3 { font-size: 1.8rem; margin-bottom: 15px; color: white; }
+        .card p { color: var(--text-muted); font-size: 1.05rem; }
+
+        /* === قسم الإحصائيات === */
+        .stats-section {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            padding: 80px 20px;
+            background: rgba(255, 255, 255, 0.02);
+            flex-wrap: wrap;
+        }
+
+        .stat-item h2 {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-item p { color: var(--text-muted); font-size: 1.2rem; }
+
+        /* === قسم النصائح === */
+        .tips-section { text-align: center; padding: 80px 20px; }
+
+        .tip-box {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            max-width: 800px;
+            margin: 30px auto;
+            font-size: 1.4rem;
+            font-weight: 600;
+            border-radius: 15px;
+            border: 1px solid var(--neon-purple);
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px rgba(188, 19, 255, 0.1);
+            transition: opacity 0.5s ease;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--neon-cyan);
+            padding: 15px 35px;
+            border: 2px solid var(--neon-cyan);
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: var(--neon-cyan);
+            color: var(--bg-color);
+            box-shadow: 0 0 20px var(--neon-cyan);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+        }
+
+        /* === تأثير الظهور عند التمرير === */
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 1s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* === تصميم متجاوب === */
+        @media (max-width: 768px) {
+            nav { padding: 15px 20px; }
+            nav ul { display: none; }
+            .hero h1 { font-size: 2.5rem; }
+            .section-title { font-size: 2rem; margin: 60px 0 30px; }
+            .info-section { padding: 0 20px 40px; }
+            .code-editor-3d { transform: rotateY(0deg) rotateX(0deg); margin-top: 30px; }
+            .banner-section { background-attachment: scroll; height: 300px; }
+            .banner-text h2 { font-size: 2rem; }
+            
+            .immersive-section, .immersive-section.reverse {
+                flex-direction: column;
+            }
+            .immersive-img { min-height: 300px; }
+            .immersive-text { padding: 40px 30px; }
+            .immersive-text h3 { font-size: 2rem; }
+            .immersive-img::after {
+                background: linear-gradient(to top, #0a0a18, transparent 80%) !important;
+            }
+            
+            .cards-container { padding: 0 20px 40px; }
+            .stats-section { gap: 40px; }
+            .stat-item h2 { font-size: 2.5rem; }
+        }
+    </template>
+</head>
+<body>
+
+    <!-- الخلفية المتوهجة -->
+    <div class="bg-glow">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- شريط التنقل -->
+    <nav>
+        <div class="logo">&lt;CodeVerse/&gt;</div>
+        <ul>
+            <li><a href="#home">الرئيسية</a></li>
+            <li><a href="#what-is">ما هي البرمجة؟</a></li>
+            <li><a href="#who">لمن البرمجة؟</a></li>
+            <li><a href="#languages">اللغات</a></li>
+            <li><a href="#tips">نصائح</a></li>
+        </ul>
+    </nav>
+
+    <!-- القسم الرئيسي -->
+    <section class="hero" id="home">
+        <h1>مرحباً بك في <span class="gradient-text">عالم البرمجة</span></h1>
+        <div id="typewriter">print("Hello, World!");</div>
+        <p>البرمجة هي لغة المستقبل. تعلم كيفية كتابة الأكواد، حل المشكلات، وبناء تطبيقات تغير العالم خطوة بخطوة. انطلق في رحلتك نحو الاحتراف.</p>
+        <a href="#what-is" class="btn-main">ابدأ رحلتك الآن 🚀</a>
+    </section>
+
+    <!-- قسم: ما هي البرمجة؟ -->
+    <h2 class="section-title reveal" id="what-is">ما هي <span class="gradient-text">البرمجة؟</span></h2>
+    <div class="info-section">
+        <div class="info-text reveal">
+            <p>
+                البرمجة هي فن وعلم كتابة مجموعة من التعليمات والأوامر التي توجه الحاسوب لأداء مهام محددة. 
+                إنها الطريقة التي نحول بها أفكارنا إلى واقع رقمي يمكن للآلة فهمه وتنفيذه.
+            </p>
+            <p>
+                تخيل أنك تبني منزلاً؛ الطوب والإسمنت هما البيانات، والبرمجة هي المخطط والهندسة التي تحدد كيف يتم بناء المنزل خطوة بخطوة.
+                المبرمج هو المهندس الذي يتحدث بلغة يفهمها الكمبيوتر (0 و 1) من خلال لغات برمجة عالية المستوى.
+            </p>
+        </div>
+        <div class="code-editor-3d-wrapper reveal">
+            <div class="code-editor-3d" id="code3d">
+                <div class="editor-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                </div>
+                <div class="code-content">
+                    <span class="c-comment">// كود بسيط يشرح البرمجة</span><br>
+                    <span class="c-keyword">function</span> <span class="c-func">buildFuture</span>() {<br>
+                    &nbsp;&nbsp;<span class="c-keyword">let</span> <span class="c-var">idea</span> = <span class="c-string">"تطبيق رائع"</span>;<br>
+                    &nbsp;&nbsp;<span class="c-keyword">let</span> <span class="c-var">code</span> = <span class="c-func">writeCode</span>(<span class="c-var">idea</span>);<br>
+                    &nbsp;&nbsp;<span class="c-keyword">return</span> <span class="c-func">launch</span>(<span class="c-var">code</span>);<br>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- قسم: ما هي لغات البرمجة؟ -->
+    <div class="info-section" style="flex-direction: row-reverse;">
+        <div class="info-text reveal">
+            <h2>لغات <span class="gradient-text">البرمجة</span></h2>
+            <p>
+                لغات البرمجة هي الأبجدية والقواعد التي نستخدمها للتواصل مع الحاسوب. تماماً مثل اللغات البشرية (العربية، الإنجليزية)، كل لغة برمجة لها قواعد خاصة بها (Syntax).
+            </p>
+            <p>
+                الحاسوب يفهم لغة واحدة فقط (لغة الآلة المكونة من 0 و 1)، لكن كتابة البرامج بهذه اللغة صعبة جداً على البشر. لذلك ظهرت لغات البرمجة لتكون جسراً بيننا وبين الحاسوب، حيث نكتب نحن بكلمات مفهومة، ويقوم برنامج يسمى "المترجم" (Compiler) بتحويلها إلى لغة الآلة.
+            </p>
+        </div>
+        <div class="code-editor-3d-wrapper reveal">
+            <div class="code-editor-3d" id="code3d_2">
+                <div class="editor-header">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                </div>
+                <div class="code-content">
+                    <span class="c-comment">// تحويل الفكرة إلى كود</span><br>
+                    <span class="c-keyword">const</span> <span class="c-var">languages</span> = [<span class="c-string">"HTML"</span>, <span class="c-string">"CSS"</span>, <span class="c-string">"JS"</span>];<br><br>
+                    <span class="c-var">languages</span>.<span class="c-func">forEach</span>(<span class="c-var">lang</span> => {<br>
+                    &nbsp;&nbsp;<span class="c-func">console</span>.<span class="c-func">log</span>(<span class="c-string">"Learning: "</span> + <span class="c-var">lang</span>);<br>
+                    });
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- بانر صور لفريق برمجة (تأثير Parallax) -->
+    <section class="banner-section">
+        <div class="banner-text">
+            <h2 class="gradient-text">شغل العالم بأفكارك</h2>
+            <p>انضم إلى أكبر مجتمع للمبرمجين، تعلم كيفية العمل ضمن فريق، وحول أفكارك إلى مشاريع حقيقية تخدم البشرية.</p>
+        </div>
+    </section>
+
+    <!-- قسم: البرمجة للجميع (بالتصميم العريض الجديد) -->
+    <h2 class="section-title reveal" id="who">البرمجة <span class="gradient-text">للجميع</span></h2>
+
+    <!-- 1. قسم الأطفال (الصورة يمين، النص يسار) -->
+    <div class="immersive-section reveal">
+        <div class="immersive-img" style="background-image: url('https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2070&auto=format&fit=crop');"></div>
+        <div class="immersive-text">
+            <h3>للأطفال والناشئين</h3>
+            <p>تنمية التفكير المنطقي والإبداع لدي الأطفال من خلال تعلم البرمجة بأسلوب ممتع يدمج بين اللعب والتعليم، فالأطفال اليوم هم صُناع المستقبل.</p>
+            <p>البرمجة في الصغر تبني عقلاً تحليلياً قادراً على حل المشكلات بطرق مبتكرة.</p>
+        </div>
+    </div>
+
+    <!-- 2. قسم الشباب (النص يمين، الصورة يسار) -->
+    <div class="immersive-section reverse reveal">
+        <div class="immersive-img" style="background-image: url('https://images.unsplash.com/photo-1531497865144-0464ef8fb9a9?q=80&w=2070&auto=format&fit=crop');"></div>
+        <div class="immersive-text">
+            <h3>للشباب والطلاب</h3>
+            <p>بناء مشاريع مبتكرة، تطوير التطبيقات، وإعداد نفسك لسوق العمل في أحد أهم المجالات المطلوبة عالمياً في عصر التكنولوجيا.</p>
+            <p>حوّل شغفك بالتكنولوجيا إلى مسيرة مهنية ناجحة وفرص عمل عن بُعد.</p>
+        </div>
+    </div>
+
+    <!-- 3. قسم الكبار (الصورة يمين، النص يسار) -->
+    <div class="immersive-section reveal">
+        <div class="immersive-img" style="background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop');"></div>
+        <div class="immersive-text">
+            <h3>للكبار والمحترفين</h3>
+            <p>تطوير المهارات، العمل الحر (Freelance) من المنزل، وبناء مشاريع جانبية قد تتحول لشركات ناشئة. البرمجة عمرها لا يبدأ من رقم.</p>
+            <p>لا يوجد سن محدد لتعلم البرمجة، ابدأ الآن وابن مشروعك الخاص.</p>
+        </div>
+    </div>
+
+    <!-- قسم لغات البرمجة (مع الشعارات الحقيقية) -->
+    <h2 class="section-title reveal" id="languages">أشهر <span class="gradient-text">لغات البرمجة</span></h2>
+    <div class="cards-container">
+        <div class="card reveal">
+            <div class="lang-logos">
+                <i class="devicon-html5-plain colored"></i>
+                <i class="devicon-css3-plain colored"></i>
+            </div>
+            <h3>HTML & CSS</h3>
+            <p>اللبنة الأساسية لتصميم وتنسيق صفحات الويب. بدونها لا يوجد موقع على الإطلاق!</p>
+        </div>
+
+        <div class="card reveal">
+            <div class="lang-logos">
+                <i class="devicon-javascript-plain colored"></i>
+            </div>
+            <h3>JavaScript</h3>
+            <p>لغة التفاعل في الويب. تجعل المواقع حية وقادرة على تنفيذ الأوامر المعقدة.</p>
+        </div>
+
+        <div class="card reveal">
+            <div class="lang-logos">
+                <i class="devicon-python-plain colored"></i>
+            </div>
+            <h3>Python</h3>
+            <p>أشهر لغة للمبتدئين، تُستخدم في الذكاء الاصطناعي، تحليل البيانات، وتطوير الويب.</p>
+        </div>
+
+        <div class="card reveal">
+            <div class="lang-logos">
+                <i class="devicon-java-plain colored"></i>
+            </div>
+            <h3>Java</h3>
+            <p>لغة قوية وموثوقة تُستخدم في تطبيقات الأندرويد، الأنظمة الكبيرة، والمؤسسات.</p>
+        </div>
+    </div>
+
+    <!-- قسم الإحصائيات -->
+    <section class="stats-section reveal" id="stats">
+        <div class="stat-item">
+            <h2>+500</h2>
+            <p>درس تعليمي</p>
+        </div>
+        <div class="stat-item">
+            <h2>+50K</h2>
+            <p>طالب ومطور</p>
+        </div>
+        <div class="stat-item">
+            <h2>24/7</h2>
+            <p>دعم فني</p>
+        </div>
+    </section>
+
+    <!-- قسم النصائح -->
+    <section class="tips-section" id="tips">
+        <h2 class="section-title reveal">💡 نصيحة <span class="gradient-text">برمجية</span></h2>
+        <div class="tip-box reveal" id="tipBox">اضغط على الزر أدناه للحصول على نصيحة من مبرمجين محترفين!</div>
+        <button class="btn-secondary" onclick="generateTip()">أعطني نصيحة ✨</button>
+    </section>
+
+    <footer>
+        <p>صنع بـ ❤️ باستخدام HTML, CSS, و JavaScript | CodeVerse © 2024</p>
+    </footer>
+
+    <script src="js.js" defer></script>
+    <!--
+        // 1. تأثير آلة الكتابة
+        const codeLines = [
+            'print("Hello, World!");',
+            'console.log("Learn Coding");',
+            'while(!success) { tryAgain(); }',
+            'const dev = new Developer();'
+        ];
+        let lineIndex = 0;
+        setInterval(() => {
+            const typewriter = document.getElementById('typewriter');
+            typewriter.textContent = codeLines[lineIndex];
+            lineIndex = (lineIndex + 1) % codeLines.length;
+        }, 2500);
+
+        // 2. مولد النصائح البرمجية
+        const tips = [
+            "الكود النظيف أهم من الكود الذي يعمل فقط. اكتب كوداً يفهمه البشر وليس الآلة فقط.",
+            "لا تحفظ الأكواد، بل افهم المنطق وراءها. الحفظ يأتي مع الممارسة.",
+            "إذا واجهت خطأ (Bug)، فالخطأ دائماً في كودك وليس في اللغة أو المترجم!",
+            "أفضل طريقة لتعلم البرمجة هي بناء مشاريع حقيقية، حتى لو كانت صغيرة جداً.",
+            "خذ استراحة كل ساعة. العقل المتعب لا يكتب كوداً جيداً.",
+            "Google و Stack Overflow هما أفضل صديقين للمبرمج، لا تخجل من البحث.",
+            "البرمجة ليست مجرد كتابة أكواد، بل هي مهارة حل المشكلات بطرق إبداعية.",
+            "تعلم لغة واحدة جيداً، أفضل من تعلم 5 لغات بشكل سطحي."
+        ];
+
+        function generateTip() {
+            const tipBox = document.getElementById('tipBox');
+            const randomIndex = Math.floor(Math.random() * tips.length);
+            
+            tipBox.style.opacity = '0';
+            setTimeout(() => {
+                tipBox.textContent = `"${tips[randomIndex]}"`;
+                tipBox.style.opacity = '1';
+            }, 400);
+        }
+
+        // 3. تأثير الظهور عند التمرير (Scroll Reveal)
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        reveals.forEach(el => observer.observe(el));
+
+        // 4. تأثير 3D للكود مع حركة الماوس
+        const code3d = document.getElementById('code3d');
+        const code3d_2 = document.getElementById('code3d_2');
+
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth / 2 - e.clientX) / 50;
+            const y = (window.innerHeight / 2 - e.clientY) / 50;
+            
+            if(code3d) code3d.style.transform = `rotateY(${-x}deg) rotateX(${y}deg)`;
+            if(code3d_2) code3d_2.style.transform = `rotateY(${-x}deg) rotateX(${y}deg)`;
+        });
+    -->
+</body>
+</html>
